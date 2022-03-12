@@ -10,4 +10,20 @@ class ProjectList(APIView):
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
+    def post(self, request):
+        serializer = ProjectSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+class ProjectDetail(APIView):
+
+    def get_object(self, pk):
+        return Project.objects.get(pk=pk)
+
+    def get(self, request, pk):
+        project = self.get_object(pk)
+        serializer = ProjectSerializer(project)
+        return Response(serializer.data)
+
 
