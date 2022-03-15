@@ -21,7 +21,8 @@ class ProjectSerializer(serializers.Serializer):
     image = serializers.URLField()
     is_open = serializers.BooleanField()
     date_created = serializers.DateTimeField()
-    owner = serializers.CharField(max_length=200)
+    # owner = serializers.CharField(max_length=200)
+    owner = serializers.ReadOnlyField(source='owner.id')
     # pledges = PledgeSerializer(many=True, read_only=True)
 
     def create(self, validated_data):
