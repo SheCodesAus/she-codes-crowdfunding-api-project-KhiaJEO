@@ -7,12 +7,9 @@ class Category(models.Model):
 
 class Project(models.Model):
     title = models.CharField(max_length=200)
-    summary = models.TextField()
+    summary = models.CharField(max_length=200)
     image = models.URLField()
     goal = models.IntegerField()
-    issue = models.TextField()
-    tools = models.TextField()
-    science = models.TextField()
     is_open = models.BooleanField()
     date_created = models.DateTimeField()
     # owner = models.CharField(max_length=200)
@@ -21,12 +18,13 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         related_name='owner_projects'
     )
-    categories = models.ManyToManyField(Category, blank = True, null = True)
+    # categories = models.ManyToManyField(Category, blank = True, null = True)
     
 class Pledge(models.Model):
     amount = models.IntegerField()
     comment = models.CharField(max_length=200)
     anonymous = models.BooleanField()
+    supporter =  models.CharField(max_length=200)
     project = models.ForeignKey(
         'Project',
         on_delete=models.CASCADE,
