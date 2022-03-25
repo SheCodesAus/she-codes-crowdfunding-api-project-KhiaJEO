@@ -1,14 +1,15 @@
+
 from django.contrib.auth import get_user_model
 from django.db import models
 
-class Category(models.Model):
-    name = models.CharField(max_length=50)
-    slug = models.SlugField() 
+# class Category(models.Model):
+#     name = models.CharField(max_length=50)
+#     slug = models.SlugField() ben's categories code??
 
 class Project(models.Model):
     title = models.CharField(max_length=200)
-    summary = models.CharField(max_length=200)
     image = models.URLField()
+    summary = models.CharField(max_length=200)
     goal = models.IntegerField()
     is_open = models.BooleanField()
     date_created = models.DateTimeField()
@@ -18,7 +19,21 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         related_name='owner_projects'
     )
+    # issue = models.CharField(max_length=600)
+    # tools = models.CharField(max_length=600)
+    # science = models.CharField(max_length=600) 
+    # closing_date = models.DateTimeField() ask about the option to choose when running migrations
     # categories = models.ManyToManyField(Category, blank = True, null = True)
+    category = models.ForeignKey(
+        'Category',
+        null=True, blank=True,
+        on_delete=models.CASCADE,
+        related_name='project_id'
+    ) 
+
+class Category(models.Model):
+    category_name = models.CharField(max_length=200)
+
     
 class Pledge(models.Model):
     amount = models.IntegerField()

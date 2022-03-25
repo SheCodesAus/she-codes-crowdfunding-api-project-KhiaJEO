@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Project, Pledge
+from .models import Project, Pledge, Category 
 
 class PledgeSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
@@ -23,8 +23,13 @@ class ProjectSerializer(serializers.Serializer):
     date_created = serializers.DateTimeField()
     # owner = serializers.CharField(max_length=200)
     owner = serializers.ReadOnlyField(source='owner.id')
-    # pledges = PledgeSerializer(many=True, read_only=True)
-    # categories = serializers
+    pledges = PledgeSerializer(many=True, read_only=True)
+    # categories = serializers ask about this
+    issue = serializers.CharField(max_length=600)
+    tools = serializers.CharField(max_length=600)
+    science = serializers.CharField(max_length=600)
+    # closing_date = serializers.DateTimeField()
+
     def create(self, validated_data):
         return Project.objects.create(**validated_data)
 
@@ -41,4 +46,13 @@ class ProjectDetailSerializer(ProjectSerializer):
         instance.owner = validated_data.get('owner', instance.owner)
         instance.save()
         return instance
+
+class CategorySerializer(serializers.Serializer):
+    id = serializers.ReadOnlyField()
+    category_name = serializers.CharField(max_length=200)
+
+    def create(self, validated_data):
+        return Category.objects.create(**validated_data)
+# and a link within ProjectSerializer
+# category = CategorySerializer(many=False, read_only=False)
     
