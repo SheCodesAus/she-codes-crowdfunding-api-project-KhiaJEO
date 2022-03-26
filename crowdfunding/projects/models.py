@@ -19,10 +19,10 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         related_name='owner_projects'
     )
-    # issue = models.CharField(max_length=600)
-    # tools = models.CharField(max_length=600)
-    # science = models.CharField(max_length=600) 
-    # closing_date = models.DateTimeField() ask about the option to choose when running migrations
+    issue = models.CharField(max_length=600)
+    tools = models.CharField(max_length=600)
+    science = models.CharField(max_length=600) 
+    closing_date = models.DateTimeField()
     # categories = models.ManyToManyField(Category, blank = True, null = True)
     category = models.ForeignKey(
         'Category',
