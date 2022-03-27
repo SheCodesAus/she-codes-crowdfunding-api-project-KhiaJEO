@@ -1,10 +1,11 @@
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework import status, permissions, generics
 from .models import CustomUser, Puns
-from .serializers import CustomUserSerializer, PunsSerializer
+from .serializers import CustomUserSerializer, PunsSerializer, RegisterSerializer
 from projects.permissions import IsOwnerOrReadOnly
+
 
 
 class CustomUserList(APIView):
@@ -35,6 +36,11 @@ class CustomUserDetail(APIView):
         serializer = CustomUserSerializer(user)
         return Response(serializer.data)
 
+# create new account: the view that links with serializer
+class RegisterView(generics.CreateAPIView):
+    serializer_class = RegisterSerializer
+    permission_classes = [permissions.AllowAny,]
+    queryset = CustomUser.objects.all()
 
 class ProfileDetail(APIView):
     permission_classes = [
