@@ -2,8 +2,8 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions, generics
-from .models import CustomUser, Puns
-from .serializers import CustomUserSerializer, PunsSerializer, RegisterSerializer
+from .models import CustomUser, Profile, Puns
+from .serializers import CustomUserSerializer, PunsSerializer, RegisterSerializer, ProfileSerializer, ProfileDetailSerializer
 from projects.permissions import IsOwnerOrReadOnly
 
 
@@ -48,13 +48,13 @@ class ProfileDetail(APIView):
         # IsOwnerOrReadOnly
         ]
     
-    def get(self, request):
+    def get(self, request, pk):
         profile = Profile.objects.all()
-        serializer = ProfileSerializer(profile, many=True)
+        serializer = ProfileDetailSerializer(profile, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
-        serializer = ProfileSerializer(data=request.data)
+    def post(self, request, pk):
+        serializer = ProfileDetailSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data)

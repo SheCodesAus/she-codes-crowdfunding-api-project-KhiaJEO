@@ -49,7 +49,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
 
-
+# User profiles:
 class ProfileSerializer(serializers.Serializer):
     profile_img = serializers.URLField()
     name = serializers.CharField(max_length=200)
@@ -58,6 +58,19 @@ class ProfileSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return Profile.objects.create(**validated_data)
+
+class ProfileDetailSerializer(ProfileSerializer):
+    # pledges = PledgeSerializer(many=True, read_only=True)
+
+    def update(self, instance, validated_data):
+        instance.profile_img = validated_data.get('profile_img', instance.profile_img)
+        # instance.description = validated_data.get('description', instance.description)
+        instance.name = validated_data.get('name', instance.name)
+        instance.bio = validated_data.get('bio', instance.bio)
+        instance.link = validated_data.get('link', instance.link)
+        instance.save()
+        return instance
+
 
 class PunsSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
