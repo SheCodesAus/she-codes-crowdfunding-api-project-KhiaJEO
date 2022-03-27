@@ -85,7 +85,7 @@ class ProjectDetail(APIView):
         )
         if serializer.is_valid():
             serializer.save()
-# to edit your profile using a PUT request method:
+# to edit your project using a PUT request method:
             return Response(serializer.data, 
             status=status.HTTP_200_OK)
         return Response(serializer.errors,

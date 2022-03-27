@@ -6,8 +6,6 @@ from .models import CustomUser, Profile, Puns
 from .serializers import CustomUserSerializer, PunsSerializer, RegisterSerializer, ProfileSerializer, ProfileDetailSerializer
 from projects.permissions import IsOwnerOrReadOnly
 
-
-
 class CustomUserList(APIView):
 
     def get(self, request):
@@ -60,6 +58,23 @@ class ProfileDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors,
         status=status.HTTP_400_BAD_REQUEST)
+
+#  to edit your profile using a PUT request method:
+
+#     def put(self, request, pk):
+#         profile = Profile.objects.all()
+#         data = request.data 
+#         serializer = ProfileDetailSerializer(
+#             instance=profile, 
+#             data=data, 
+#             partial=True
+#         )
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, 
+#             status=status.HTTP_200_OK)
+#         return Response(serializer.errors,
+#         status=status.HTTP_400_BAD_REQUEST)
 
 
 class PunsList(APIView):
