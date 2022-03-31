@@ -21,14 +21,19 @@ class ProjectSerializer(serializers.Serializer):
     goal = serializers.IntegerField()
     is_open = serializers.BooleanField()
     date_created = serializers.DateTimeField()
-    # owner = serializers.CharField(max_length=200)
-    owner = serializers.ReadOnlyField(source='owner.id')
+    owner = serializers.CharField(max_length=200)
+    # owner = serializers.ForeignKey(
+    #     get_user_model(),
+    #     on_delete=models.CASCADE,
+    #     related_name='owner_projects'
+    # )
+    # owner = serializers.ReadOnlyField(source='owner.id')
     pledges = PledgeSerializer(many=True, read_only=True)
-    # categories = serializers ask about this
+    # categories = serializers unsure if i want categories
     issue = serializers.CharField(max_length=600)
     tools = serializers.CharField(max_length=600)
     science = serializers.CharField(max_length=600)
-    # closing_date = serializers.DateTimeField()
+    closing_date = serializers.DateTimeField()
 
     def create(self, validated_data):
         return Project.objects.create(**validated_data)
