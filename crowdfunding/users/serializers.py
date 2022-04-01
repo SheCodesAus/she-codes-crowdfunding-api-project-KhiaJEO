@@ -64,7 +64,6 @@ class ProfileDetailSerializer(ProfileSerializer):
 
     def update(self, instance, validated_data):
         instance.profile_img = validated_data.get('profile_img', instance.profile_img)
-        # instance.description = validated_data.get('description', instance.description)
         instance.name = validated_data.get('name', instance.name)
         instance.bio = validated_data.get('bio', instance.bio)
         instance.link = validated_data.get('link', instance.link)

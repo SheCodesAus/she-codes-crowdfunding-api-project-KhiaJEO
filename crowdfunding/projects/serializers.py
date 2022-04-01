@@ -21,13 +21,13 @@ class ProjectSerializer(serializers.Serializer):
     goal = serializers.IntegerField()
     is_open = serializers.BooleanField()
     date_created = serializers.DateTimeField()
-    owner = serializers.CharField(max_length=200)
+    # owner = serializers.CharField(max_length=200)
     # owner = serializers.ForeignKey(
     #     get_user_model(),
     #     on_delete=models.CASCADE,
     #     related_name='owner_projects'
     # )
-    # owner = serializers.ReadOnlyField(source='owner.id')
+    owner = serializers.ReadOnlyField(source='owner.id')
     pledges = PledgeSerializer(many=True, read_only=True)
     # categories = serializers unsure if i want categories
     issue = serializers.CharField(max_length=600)

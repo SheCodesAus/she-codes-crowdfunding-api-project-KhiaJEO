@@ -10,6 +10,7 @@ class CustomUser(AbstractUser):
         return self.username
 
 class Profile(models.Model):
+    user_profile = models.CharField(max_length=200, primary_key=True)
     profile_img = models.URLField()
     name = models.CharField(max_length=200)
     bio = models.CharField(max_length=600)
