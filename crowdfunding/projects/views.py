@@ -1,9 +1,9 @@
 from django.http import Http404
-from rest_framework import status, permissions
+from rest_framework import status, permissions, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from.models import Project, Pledge
-from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer
+from .models import Project, Pledge, Category
+from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, CategorySerializer
 from .permissions import IsOwnerOrReadOnly
 
 
@@ -75,6 +75,7 @@ class ProjectDetail(APIView):
         serializer = ProjectDetailSerializer(project)
         return Response(serializer.data)
 
+# to edit your project using a PUT request method:
     def put(self, request, pk):
         project = self.get_object(pk)
         data = request.data 
@@ -85,8 +86,11 @@ class ProjectDetail(APIView):
         )
         if serializer.is_valid():
             serializer.save()
-# to edit your project using a PUT request method:
             return Response(serializer.data, 
             status=status.HTTP_200_OK)
         return Response(serializer.errors,
         status=status.HTTP_400_BAD_REQUEST)
+
+class CategoryList(generics.ListCreateAPIView):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()

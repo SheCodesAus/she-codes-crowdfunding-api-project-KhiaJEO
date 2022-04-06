@@ -2,9 +2,9 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-# class Category(models.Model):
-#     name = models.CharField(max_length=50)
-#     slug = models.SlugField() ben's categories code??
+class Category(models.Model):
+    category_name = models.CharField(max_length=50)
+    slug = models.SlugField()
 
 class Project(models.Model):
     title = models.CharField(max_length=200)
@@ -12,7 +12,7 @@ class Project(models.Model):
     summary = models.CharField(max_length=200)
     goal = models.IntegerField()
     is_open = models.BooleanField()
-    date_created = models.DateTimeField()
+    date_created = models.DateTimeField(auto_now_add=True)
     owner = models.CharField(max_length=200)
     # owner = models.ForeignKey(
     #     get_user_model(),
@@ -23,16 +23,16 @@ class Project(models.Model):
     tools = models.CharField(max_length=600)
     science = models.CharField(max_length=600) 
     closing_date = models.DateTimeField()
-    # categories = models.ManyToManyField(Category, blank = True, null = True)
+    # categories = models.ManyToManyField(Category, blank = True, null = True) 
     category = models.ForeignKey(
-        'Category',
-        null=True, blank=True,
-        on_delete=models.CASCADE,
+        'Category', 
+        null=True, blank=True, 
+        on_delete=models.CASCADE, 
         related_name='project_id'
-    ) 
+        ) 
 
-class Category(models.Model):
-    category_name = models.CharField(max_length=200)
+# class Category(models.Model):
+#     category_name = models.CharField(max_length=200)
 
     
 class Pledge(models.Model):
