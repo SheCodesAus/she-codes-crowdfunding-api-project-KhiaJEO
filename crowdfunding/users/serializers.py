@@ -1,16 +1,28 @@
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
-from .models import CustomUser, Profile, Puns
+from .models import CustomUser, Puns
 
 
 class CustomUserSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     username = serializers.CharField(max_length=200)
     email = serializers.CharField(max_length=200)
+    profile_img = serializers.URLField()
+    bio = serializers.CharField(max_length=600)
+    link = serializers.URLField()
 
     def create(self, validated_data):
-          return CustomUser.objects.create(**validated_data)      
+          return CustomUser.objects.create(**validated_data)   
+
+class CustomUserDetailSerializer(CustomUserSerializer):
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get('username',instance.username)
+        instance.profile_img = validated_data.get('profile_img', instance.profile_img)
+        instance.bio = validated_data.get('bio', instance.bio)
+        instance.link = validated_data.get('link', instance.link)
+        instance.save()
+        return instance 
 
 # CREATE A USER ACCOUNT
 class RegisterSerializer(serializers.ModelSerializer):
@@ -48,28 +60,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
-
-# User profiles:
-class ProfileSerializer(serializers.Serializer):
-    profile_img = serializers.URLField()
-    name = serializers.CharField(max_length=200)
-    bio = serializers.CharField(max_length=600)
-    link = serializers.URLField()
-
-    def create(self, validated_data):
-        return Profile.objects.create(**validated_data)
-
-class ProfileDetailSerializer(ProfileSerializer):
-    # pledges = PledgeSerializer(many=True, read_only=True)
-
-    def update(self, instance, validated_data):
-        instance.profile_img = validated_data.get('profile_img', instance.profile_img)
-        instance.name = validated_data.get('name', instance.name)
-        instance.bio = validated_data.get('bio', instance.bio)
-        instance.link = validated_data.get('link', instance.link)
-        instance.save()
-        return instance
-
 
 class PunsSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()

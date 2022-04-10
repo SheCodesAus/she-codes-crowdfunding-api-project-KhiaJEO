@@ -4,22 +4,13 @@ from django.contrib.auth import get_user_model
 
 
 class CustomUser(AbstractUser):
-    pass
+    profile_img = models.URLField(null=True, blank=True)
+    bio = models.TextField(null=True, blank=True)
+    link = models.URLField(null=True, blank=True)
 
     def __str__(self):
         return self.username
 
-class Profile(models.Model):
-    # user_profile = models.CharField(max_length=200, primary_key=True)
-    profile_img = models.URLField()
-    name = models.CharField(max_length=200)
-    bio = models.CharField(max_length=600)
-    link = models.URLField()  
-    user = models.ForeignKey(
-        'CustomUser',
-        on_delete=models.CASCADE,
-        related_name='profile'
-    )
 
 class Puns(models.Model):
     post = models.CharField(max_length=200)
@@ -29,7 +20,6 @@ class Puns(models.Model):
         on_delete=models.CASCADE,
         related_name='puns'
     )
-
 
 # class Badge(models.Model):
 #     image = models.URLField()
