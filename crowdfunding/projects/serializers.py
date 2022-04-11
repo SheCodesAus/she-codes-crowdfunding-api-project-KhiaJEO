@@ -23,12 +23,6 @@ class ProjectSerializer(serializers.Serializer):
     goal = serializers.IntegerField()
     is_open = serializers.BooleanField()
     date_created = serializers.DateTimeField()
-    # owner = serializers.CharField(max_length=200)
-    # owner = serializers.ForeignKey(
-    #     get_user_model(),
-    #     on_delete=models.CASCADE,
-    #     related_name='owner_projects'
-    # )
     owner = serializers.ReadOnlyField(source='owner.id')
     pledges = PledgeSerializer(many=True, read_only=True)
     # categories = serializers unsure if i want categories
@@ -46,7 +40,7 @@ class ProjectDetailSerializer(ProjectSerializer):
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
-        # instance.description = validated_data.get('description', instance.description)
+        instance.summary = validated_data.get('summary', instance.summary)
         instance.goal = validated_data.get('goal', instance.goal)
         instance.image = validated_data.get('image', instance.image)
         instance.is_open = validated_data.get('is_open', instance.is_open)

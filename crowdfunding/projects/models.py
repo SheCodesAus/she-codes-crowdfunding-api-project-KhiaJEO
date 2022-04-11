@@ -13,12 +13,12 @@ class Project(models.Model):
     goal = models.IntegerField()
     is_open = models.BooleanField()
     date_created = models.DateTimeField(auto_now_add=True)
-    owner = models.CharField(max_length=200)
-    # owner = models.ForeignKey(
-    #     get_user_model(),
-    #     on_delete=models.CASCADE,
-    #     related_name='owner_projects'
-    # )
+    # owner = models.CharField(max_length=200)
+    owner = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='owner_projects'
+    )
     issue = models.CharField(max_length=600)
     tools = models.CharField(max_length=600)
     science = models.CharField(max_length=600) 
