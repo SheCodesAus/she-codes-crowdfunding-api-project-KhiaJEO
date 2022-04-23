@@ -39,7 +39,13 @@ class Pledge(models.Model):
     amount = models.IntegerField()
     comment = models.CharField(max_length=200)
     anonymous = models.BooleanField()
-    supporter =  models.CharField(max_length=200)
+    # supporter =  models.CharField(max_length=200)
+    supporter = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='supporter_pledges'
+    )
+    
     project = models.ForeignKey(
         'Project',
         on_delete=models.CASCADE,
