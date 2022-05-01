@@ -16,6 +16,7 @@ class PledgeSerializer(serializers.Serializer):
         return Pledge.objects.create(**validated_data)
 
 
+
 class ProjectSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     title = serializers.CharField(max_length=200)
