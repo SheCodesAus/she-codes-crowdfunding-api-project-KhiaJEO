@@ -3,7 +3,7 @@ from rest_framework import status, permissions, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Project, Pledge, Category
-from .serializers import ProjectSerializer, PledgeSerializer, PledgeDetailSerializer, ProjectDetailSerializer, CategorySerializer
+from .serializers import ProjectSerializer, PledgeSerializer, PledgeDetailSerializer, ProjectDetailSerializer
 from .permissions import IsOwnerOrReadOnly
 
 
@@ -134,6 +134,6 @@ class ProjectDetail(APIView):
         project.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class CategoryList(generics.ListCreateAPIView):
-    serializer_class = CategorySerializer
-    queryset = Category.objects.all()
+# class CategoryList(generics.ListCreateAPIView):
+#     serializer_class = CategorySerializer
+#     queryset = Category.objects.all()
