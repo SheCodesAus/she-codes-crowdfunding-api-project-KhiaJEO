@@ -1,1 +1,5 @@
 venv/
+staticfiles
+*.sqlite3
+crowdfunding/db.sqlite3
+crowdfunding/db.sqlite3
