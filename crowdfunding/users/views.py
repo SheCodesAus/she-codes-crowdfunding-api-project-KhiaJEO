@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions, generics
 from .models import CustomUser, Puns
-from .serializers import CustomUserSerializer, CustomUserDetailSerializer, PunsSerializer, RegisterSerializer
+from .serializers import CustomUserSerializer, CustomUserDetailSerializer, PunsSerializer, RegisterSerializer, PunsDetailSerializer
 # from projects.permissions import IsOwnerOrReadOnly
 
 class CustomUserList(APIView):
@@ -85,8 +85,19 @@ class PunsList(APIView):
 class PunsDetail(APIView):
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
-
         ]
+    
+    def get_object(self, pk):
+        try:
+            return Puns.objects.get(pk=pk)
+        except Puns.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        puns = self.get_object(pk)
+        serializer = PunsDetailSerializer(puns)
+        return Response(serializer.data)
+
     def delete(self, request, pk):
         puns = self.get_object(pk)
         puns.delete()

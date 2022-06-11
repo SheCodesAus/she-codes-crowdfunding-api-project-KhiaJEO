@@ -68,3 +68,10 @@ class PunsSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return Puns.objects.create(**validated_data)
+
+class PunsDetailSerializer(PunsSerializer):
+    def update(self, instance, validated_data):
+        instance.post = validated_data.get('post',instance.post)
+        instance.date_posted = validated_data.get('date_posted', instance.date_posted)
+        instance.save()
+        return instance 
