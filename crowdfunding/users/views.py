@@ -80,3 +80,14 @@ class PunsList(APIView):
         puns = self.get_object(pk)
         puns.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PunsDetail(APIView):
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+
+        ]
+    def delete(self, request, pk):
+        puns = self.get_object(pk)
+        puns.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
